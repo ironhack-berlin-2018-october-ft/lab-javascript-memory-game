@@ -41,25 +41,38 @@ describe('MemoryGame constructor', function () {
 
 describe('shuffleCards method', function () {
   beforeEach(function () {
-    var cardsArray = [
-      { name: 'aquaman',         img: 'aquaman.jpg' },
-      { name: 'batman',          img: 'batman.jpg' },
-      { name: 'captain america', img: 'captain-america.jpg' },
-      { name: 'fantastic four',  img: 'fantastic-four.jpg' },
-      { name: 'flash',           img: 'flash.jpg' },
-      { name: 'green arrow',     img: 'green-arrow.jpg' },
-      { name: 'green lantern',   img: 'green-lantern.jpg' },
-      { name: 'ironman',         img: 'ironman.jpg' },
-      { name: 'aquaman',         img: 'aquaman.jpg' },
-      { name: 'batman',          img: 'batman.jpg' },
-      { name: 'captain america', img: 'captain-america.jpg' },
-      { name: 'fantastic four',  img: 'fantastic-four.jpg' },
-      { name: 'flash',           img: 'flash.jpg' },
-      { name: 'green arrow',     img: 'green-arrow.jpg' },
-      { name: 'green lantern',   img: 'green-lantern.jpg' },
-      { name: 'ironman',         img: 'ironman.jpg' },
-    ]
-    memoryGame = new MemoryGame(cardsArray);
+    // var cardsArray = [
+    //   { name: 'aquaman',         img: 'aquaman.jpg' },
+    //   { name: 'batman',          img: 'batman.jpg' },
+    //   { name: 'captain america', img: 'captain-america.jpg' },
+    //   { name: 'fantastic four',  img: 'fantastic-four.jpg' },
+    //   { name: 'flash',           img: 'flash.jpg' },
+    //   { name: 'green arrow',     img: 'green-arrow.jpg' },
+    //   { name: 'green lantern',   img: 'green-lantern.jpg' },
+    //   { name: 'ironman',         img: 'ironman.jpg' },
+    //   { name: 'aquaman',         img: 'aquaman.jpg' },
+    //   { name: 'batman',          img: 'batman.jpg' },
+    //   { name: 'captain america', img: 'captain-america.jpg' },
+    //   { name: 'fantastic four',  img: 'fantastic-four.jpg' },
+    //   { name: 'flash',           img: 'flash.jpg' },
+    //   { name: 'green arrow',     img: 'green-arrow.jpg' },
+    //   { name: 'green lantern',   img: 'green-lantern.jpg' },
+    //   { name: 'ironman',         img: 'ironman.jpg' },
+    // ]
+    memoryGame = new MemoryGame([
+      'aquaman.jpg',
+      'batman.jpg',
+      'captain-america.jpg',
+      'fantastic-four.jpg',
+      'flash.jpg',
+      'green-arrow.jpg',
+      'green-lantern.jpg',
+      'ironman.jpg',
+      'spiderman.jpg',
+      'superman.jpg',
+      'the-avengers.jpg',
+      'thor.jpg'
+    ]);
   });
 
   it('Should be declare', function () {
@@ -71,10 +84,11 @@ describe('shuffleCards method', function () {
   });
 
   it('Should mixed the cards property', function () {
-    var formerCardsString = memoryGame.cards.map(function(card) { return card.name }).toString();
+    var formerCardsString = memoryGame.cards.map(function(card) { return card.img }).toString();
     memoryGame.shuffleCards();
-    var newCardsString = memoryGame.cards.map(function(card) { return card.name }).toString();
+    var newCardsString = memoryGame.cards.map(function(card) { return card.img }).toString();
     expect(formerCardsString === newCardsString).toBe(false);
+    // expect(formerCardsString).not.toBe(newCardsString);
   });
 });
 
@@ -124,7 +138,7 @@ describe('isFinished method', function () {
   });
 
   it('It should return true if all pairs were guessed', function () {
-    memoryGame.pairsGuessed = 8;
+    memoryGame.pairsGuessed = 12;
     expect(memoryGame.isFinished()).toBe(true);
   });
 
