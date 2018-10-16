@@ -19,7 +19,7 @@ describe('MemoryGame constructor', function () {
   });
 
   it('pickedCards property should be an array', function () {
-    expect(typeof memoryGame.pickedCards).toBe('object');
+    expect(Array.isArray(memoryGame.pickedCards)).toBe(true);
   });
 
   it('MemoryGame should have a pairsClicked property', function () {
@@ -41,25 +41,20 @@ describe('MemoryGame constructor', function () {
 
 describe('shuffleCards method', function () {
   beforeEach(function () {
-    var cardsArray = [
-      { name: 'aquaman',         img: 'aquaman.jpg' },
-      { name: 'batman',          img: 'batman.jpg' },
-      { name: 'captain america', img: 'captain-america.jpg' },
-      { name: 'fantastic four',  img: 'fantastic-four.jpg' },
-      { name: 'flash',           img: 'flash.jpg' },
-      { name: 'green arrow',     img: 'green-arrow.jpg' },
-      { name: 'green lantern',   img: 'green-lantern.jpg' },
-      { name: 'ironman',         img: 'ironman.jpg' },
-      { name: 'aquaman',         img: 'aquaman.jpg' },
-      { name: 'batman',          img: 'batman.jpg' },
-      { name: 'captain america', img: 'captain-america.jpg' },
-      { name: 'fantastic four',  img: 'fantastic-four.jpg' },
-      { name: 'flash',           img: 'flash.jpg' },
-      { name: 'green arrow',     img: 'green-arrow.jpg' },
-      { name: 'green lantern',   img: 'green-lantern.jpg' },
-      { name: 'ironman',         img: 'ironman.jpg' },
-    ]
-    memoryGame = new MemoryGame(cardsArray);
+    memoryGame = new MemoryGame([
+      'aquaman.jpg',
+      'batman.jpg',
+      'captain-america.jpg',
+      'fantastic-four.jpg',
+      'flash.jpg',
+      'green-arrow.jpg',
+      'green-lantern.jpg',
+      'ironman.jpg',
+      'spiderman.jpg',
+      'superman.jpg',
+      'the-avengers.jpg',
+      'thor.jpg'
+    ]);
   });
 
   it('Should be declare', function () {
@@ -71,9 +66,9 @@ describe('shuffleCards method', function () {
   });
 
   it('Should mixed the cards property', function () {
-    var formerCardsString = memoryGame.cards.map(function(card) { return card.name }).toString();
+    var formerCardsString = memoryGame.cards.map(function(card) { return card.img }).toString();
     memoryGame.shuffleCards();
-    var newCardsString = memoryGame.cards.map(function(card) { return card.name }).toString();
+    var newCardsString = memoryGame.cards.map(function(card) { return card.img }).toString();
     expect(formerCardsString === newCardsString).toBe(false);
   });
 });
@@ -84,27 +79,27 @@ describe('checkIfPair method', function () {
   });
 
   it('It should add 1 to `pairsClicked` when we call it', function () {
-    memoryGame.checkIfPair('batman', 'ironman');
+    memoryGame.checkIfPair('batman.jpg', 'ironman.jpg');
     expect(memoryGame.pairsClicked).toBe(1);
   });
 
   it('It should return true when the comparing cards are the same', function () {
-    expect(memoryGame.checkIfPair('ironman','ironman')).toBe(true);
+    expect(memoryGame.checkIfPair('ironman.jpg','ironman.jpg')).toBe(true);
   });
 
   it('It should return false when the comparing cards are the same', function () {
-    expect(memoryGame.checkIfPair('ironman','flash')).toBe(false);
+    expect(memoryGame.checkIfPair('ironman.jpg','flash.jpg')).toBe(false);
   });
 
   it('It should add 1 to pairsGuessed if they are the same card', function () {
     memoryGame.pairsGuessed = 0;
-    memoryGame.checkIfPair('ironman','ironman')
+    memoryGame.checkIfPair('ironman.jpg','ironman.jpg')
     expect(memoryGame.pairsGuessed).toBe(1);
   });
 
   it('It should not add anything to pairsGuessed if the not the same card', function () {
     memoryGame.pairsGuessed = 0;
-    memoryGame.checkIfPair('ironman','green lantern')
+    memoryGame.checkIfPair('ironman.jpg','green-lantern.jpg')
     expect(memoryGame.pairsGuessed).toBe(0);
   });
 });
@@ -124,9 +119,8 @@ describe('isFinished method', function () {
   });
 
   it('It should return true if all pairs were guessed', function () {
-    memoryGame.pairsGuessed = 8;
+    memoryGame.pairsGuessed = 12;
     expect(memoryGame.isFinished()).toBe(true);
   });
 
 });
-

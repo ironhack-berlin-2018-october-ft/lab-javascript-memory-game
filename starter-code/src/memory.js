@@ -2,11 +2,14 @@ class MemoryGame {
   constructor(imgs) {
     this.cards = []
     for (var i = 0; i < imgs.length; i++) {
-      var card = {
+      this.cards.push({
         img: imgs[i],
         isVisible: false
-      }
-      this.cards.push(card, card)
+      })
+      this.cards.push({
+        img: imgs[i],
+        isVisible: false
+      })
     }
     // TODO: continue
   }
