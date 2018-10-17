@@ -4,20 +4,16 @@ class MemoryGame {
     this.pairsClicked = 0; // the amount of tries the user had so far
     this.pairsGuessed = 0; // the guessed pairs so far
     this.cards = [];
-    this.indexTemp = 0;
+    this.indexFirstCard = 0;
     for (var i = 0; i < imgs.length; i++) {
-      var card = {
+      this.cards.push({
         img: imgs[i],
         isVisible: false
-      };
-      this.cards.push(card);
-    }
-    for (var i = 0; i < imgs.length; i++) {
-      var card = {
+      });
+      this.cards.push({
         img: imgs[i],
         isVisible: false
-      };
-      this.cards.push(card);
+      });
     }
   }
 
@@ -43,7 +39,7 @@ class MemoryGame {
   }
 
   isFinished() {
-    if (this.pairsGuessed === (this.cards.length / 2)) return true;
+    if (this.pairsGuessed === this.cards.length / 2) return true;
     return false;
   }
 
@@ -52,7 +48,6 @@ class MemoryGame {
     var html = "";
     var index;
     var isPair = false;
-    
 
     $("#pairs_clicked").text(this.pairsClicked);
     $("#pairs_guessed").text(this.pairsGuessed);
@@ -68,33 +63,30 @@ class MemoryGame {
       console.log("Test");
       index = e.target.getAttribute("data-index");
       if (!this.cards[index].isVisible) {
+        this.cards[index].isVisible = true;
         if (this.pickedCards.length === 0) {
           this.pickedCards.push(this.cards[index]);
-          this.cards[index].isVisible = true;
-          this.indexTemp = index;
+          this.indexFirstCard = index;
           isPair = true;
         } else {
           this.pickedCards.push(this.cards[index]);
           if (this.checkIfPair(this.pickedCards[0], this.pickedCards[1])) {
-            this.cards[index].isVisible = true;
             this.pickedCards = [];
-          isPair = true;
+            isPair = true;
           } else {
-            this.cards[index].isVisible = true;
-            this.cards[this.indexTemp].isVisible = true;
             this.pickedCards = [];
             isPair = false;
           }
         }
       }
       this.render();
-      if (this.isFinished()) alert("You made it!")
+      if (this.isFinished()) alert("You made it!");
       if (!isPair) {
         setTimeout(() => {
-        this.cards[index].isVisible = false;
-        this.cards[this.indexTemp].isVisible = false;
-        this.render();
-        },400);
+          this.cards[index].isVisible = false;
+          this.cards[this.indexFirstCard].isVisible = false;
+          this.render();
+        }, 400);
       }
     });
   }

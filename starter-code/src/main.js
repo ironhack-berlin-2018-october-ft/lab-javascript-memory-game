@@ -18,7 +18,6 @@ var memoryGame;
 
 $(document).ready(function() {
   memoryGame = new MemoryGame(imgs);
-  console.log(this.pickedCards);
   memoryGame.shuffleCards();
   memoryGame.render();
 });
