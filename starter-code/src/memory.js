@@ -51,9 +51,11 @@ class MemoryGame {
     //Default position
     var html = "";
     var index;
-    var index2;
-    var turn;
+    var isPair = false;
+    
 
+    $("#pairs_clicked").text(this.pairsClicked);
+    $("#pairs_guessed").text(this.pairsGuessed);
     for (var i = 0; i < this.cards.length; i++) {
       var card = this.cards[i];
       html += '<div class="card" data-index="' + i + '">';
@@ -70,23 +72,30 @@ class MemoryGame {
           this.pickedCards.push(this.cards[index]);
           this.cards[index].isVisible = true;
           this.indexTemp = index;
+          isPair = true;
         } else {
           this.pickedCards.push(this.cards[index]);
           if (this.checkIfPair(this.pickedCards[0], this.pickedCards[1])) {
             this.cards[index].isVisible = true;
             this.pickedCards = [];
+          isPair = true;
           } else {
-            $("[data-index=" + index + "]").html(
-              '  <img src="img/' + this.cards[index].img + '">'
-            );
-            this.cards[index].isVisible = false;
-            this.cards[this.indexTemp].isVisible = false;
+            this.cards[index].isVisible = true;
+            this.cards[this.indexTemp].isVisible = true;
             this.pickedCards = [];
+            isPair = false;
           }
         }
       }
       this.render();
       if (this.isFinished()) alert("You made it!")
+      if (!isPair) {
+        setTimeout(() => {
+        this.cards[index].isVisible = false;
+        this.cards[this.indexTemp].isVisible = false;
+        this.render();
+        },400);
+      }
     });
   }
 }
